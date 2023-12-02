@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DesignPatternV3.Business.Contracts\DesignPatternV3.Business.Contracts.csproj" />
+    <ProjectReference Include="..\DesignPatternV3.Business\DesignPatternV3.Business.csproj" />
+    <ProjectReference Include="..\DesignPatternV3.Controllers\DesignPatternV3.Controllers.csproj" />
+    <ProjectReference Include="..\DesignPatternV3.Repository.Contracts\DesignPatternV3.Repository.Contracts.csproj" />
+    <ProjectReference Include="..\DesignPatternV3.Repository\DesignPatternV3.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
