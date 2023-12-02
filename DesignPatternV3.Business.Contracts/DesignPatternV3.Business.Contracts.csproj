@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DesignPatternV3.Entities\DesignPatternV3.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

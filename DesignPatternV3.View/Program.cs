@@ -1,8 +1,8 @@
 ﻿using DesignPatternV3.Controllers;
 using DesignPatternV3.View.Extensions;
 using Unity;
-using static DesignPatternV3.View.ConsoleHelper;
 using static System.Console;
+using static DesignPatternV3.View.ConsoleHelper;
 
 IUnityContainer unitycontainer = new UnityContainer().AddServices();
 
@@ -12,53 +12,53 @@ int choice;
 
 do
 {
-    choice = DisplayMenu("Gestion D'employées",
-    [
-        "Ajouter un employé",
-        "Afficher les employées",
-        "Récupérer un employé par son Id"
-    ]);
+	choice = DisplayMenu("Gestion D'employées",
+	[
+		"Ajouter un employé",
+		"Afficher les employées",
+		"Récupérer un employé par son Id"
+	]);
 
-    switch (choice)
-    {
-        case 1:
-            AddEmployee();
-            break;
-        case 2:
-            DisplayEmployees();
-            break;
-        case 3:
-            GetEmployeeById();
-            break;
-        default:
-            break;
-    }
+	switch (choice)
+	{
+		case 1:
+			AddEmployee();
+			break;
+		case 2:
+			DisplayEmployees();
+			break;
+		case 3:
+			GetEmployeeById();
+			break;
+		default:
+			break;
+	}
 } while (choice != 0);
 
 void AddEmployee()
 {
-    var firstName = GetStringFromConsole("Entrez son prénom : ");
-    var lastName = GetStringFromConsole("Entrez son nom : ");
-    var salary = GetIntFromConsole("Entrez son salaire : ");
+	var firstName = GetStringFromConsole("Entrez son prénom : ");
+	var lastName = GetStringFromConsole("Entrez son nom : ");
+	var salary = GetIntFromConsole("Entrez son salaire : ", 1);
 
 	var result = employeController.AddEmployee(firstName, lastName, salary);
 
-    WriteLine(result);
+	WriteLine(result);
 
-    ReadKey();
+	ReadKey();
 }
 
 void DisplayEmployees()
 {
-    WriteLine(employeController.GetAllEmployees());
+	WriteLine(employeController.GetAllEmployees());
 
-    ReadKey();
+	ReadKey();
 }
 
 void GetEmployeeById()
 {
-    var id = GetIntFromConsole("Entrez l'id de l'employée : ");
-    WriteLine(employeController.GetEmployee(id));
+	var id = GetIntFromConsole("Entrez l'id de l'employée : ");
+	WriteLine(employeController.GetEmployee(id));
 
-    ReadKey();
+	ReadKey();
 }

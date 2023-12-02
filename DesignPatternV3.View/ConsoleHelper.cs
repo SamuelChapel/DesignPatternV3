@@ -18,16 +18,19 @@ public static class ConsoleHelper
 		return input;
 	}
 
-	public static int GetIntFromConsole(string label = "Entrez la valeur")
+	public static int GetIntFromConsole(string label = "Entrez la valeur", int? min = null)
 	{
-		int inputNumber;
 		var input = GetStringFromConsole(label);
-
-		while (!int.TryParse(input, out inputNumber))
+		int inputNumber;
+		do
 		{
-			WriteLine("Ce n'est pas un nombre, veuilllez réessayer");
+			if (!int.TryParse(input, out inputNumber))
+				WriteLine("Ce n'est pas un nombre, veuilllez réessayer");
+			else  if (min != null && inputNumber < min)
+				WriteLine($"Le nombre doit être supérieur à {min - 1}");
+
 			input = ReadLine();
-		}
+		} while (!int.TryParse(input, out inputNumber) || (min != null && inputNumber < min));
 
 		return inputNumber;
 	}
