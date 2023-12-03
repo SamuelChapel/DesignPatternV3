@@ -2,7 +2,7 @@
 using DesignPatternV3.View.Extensions;
 using Unity;
 using static System.Console;
-using static DesignPatternV3.View.ConsoleHelper;
+using static DesignPatternV3.View.Helpers.ConsoleHelper;
 
 IUnityContainer unitycontainer = new UnityContainer().AddServices();
 
@@ -13,52 +13,66 @@ int choice;
 do
 {
 	choice = DisplayMenu("Gestion D'employées",
-	[
 		"Ajouter un employé",
-		"Afficher les employées",
-		"Récupérer un employé par son Id"
-	]);
+		"Mettre à jour un employé",
+		"Afficher un employé par son Id",
+		"Afficher tous les employées");
 
 	switch (choice)
 	{
 		case 1:
-			AddEmployee();
+			await AddEmployee();
 			break;
 		case 2:
-			DisplayEmployees();
+			await UpdateEmployee();
 			break;
 		case 3:
-			GetEmployeeById();
+			await GetEmployeeById();
+			break;
+		case 4:
+			await DisplayEmployees();
 			break;
 		default:
 			break;
 	}
 } while (choice != 0);
 
-void AddEmployee()
+async Task AddEmployee()
 {
 	var firstName = GetStringFromConsole("Entrez son prénom : ");
 	var lastName = GetStringFromConsole("Entrez son nom : ");
-	var salary = GetIntFromConsole("Entrez son salaire : ", 1);
+	var salary = GetIntFromConsole("Entrez son salaire : ");
 
-	var result = employeController.AddEmployee(firstName, lastName, salary);
+	var result = await employeController.AddEmployee(firstName, lastName, salary);
 
 	WriteLine(result);
 
 	ReadKey();
 }
 
-void DisplayEmployees()
+async Task UpdateEmployee()
 {
-	WriteLine(employeController.GetAllEmployees());
+	var id = GetIntFromConsole("Entrez l'id de l'employée : ");
+	var firstName = GetStringFromConsole("Entrez son prénom : ");
+	var lastName = GetStringFromConsole("Entrez son nom : ");
+	var salary = GetIntFromConsole("Entrez son salaire : ");
+
+	WriteLine(await employeController.UpdateEmployee(id, firstName, lastName, salary));
 
 	ReadKey();
 }
 
-void GetEmployeeById()
+async Task DisplayEmployees()
+{
+	WriteLine(await employeController.GetAllEmployees());
+
+	ReadKey();
+}
+
+async Task GetEmployeeById()
 {
 	var id = GetIntFromConsole("Entrez l'id de l'employée : ");
-	WriteLine(employeController.GetEmployee(id));
+	WriteLine(await employeController.GetEmployee(id));
 
 	ReadKey();
 }

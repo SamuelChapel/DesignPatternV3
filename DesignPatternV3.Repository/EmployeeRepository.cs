@@ -6,48 +6,48 @@ namespace DesignPatternV3.Repository;
 
 public class EmployeeRepository : IEmployeeRepository
 {
-	private readonly List<Employee> _employees = [];
+	private readonly Dictionary<int, Employee> _employees = [];
 
+	// Create 100 random employees at the initialization for testing purpose
 	public EmployeeRepository()
-		=> _employees = CreateRandomEmployees(100).ToList();
+		=> _employees = CreateRandomEmployees(100)
+		.Select(e => new KeyValuePair<int, Employee>(e.Id, e))
+		.ToDictionary();
 
-	public List<Employee> Employees => _employees;
+	public List<Employee> Employees => _employees.Values.ToList();
 
-	public Employee AddEmployee(string firstName, string lastName, decimal salary)
+	public Task<IEnumerable<Employee>> FindAllEmployees()
+		=> Task.FromResult(_employees.Values.AsEnumerable());
+
+	public Task<Employee?> FindEmployeeById(int id)
 	{
-		var employee = CreateEmployee(
-			Enumerable.Range(1, 9999).Except(_employees.Select(e => e.Id)).Min(),
-			firstName,
-			lastName,
-			salary
-			);
-
-		_employees.Add(employee);
-
-		return employee;
+		return Task.FromResult(_employees.FirstOrDefault(e => e.Key == id).Value ?? null);
 	}
 
-	public IEnumerable<Employee> GetAllEmployees()
-		=> _employees;
-
-	public Employee? GetEmployeeById(int id)
-		=> _employees.FirstOrDefault(e => e.Id == id);
-
-	public Employee CreateEmployee(int id, string firstName, string lastName, decimal salary)
+	public Task<int> CreateEmployee(string firstName, string lastName, decimal salary)
 	{
-		return new Employee()
+		var employee = new Employee()
 		{
-			Id = id,
+			Id = GetMinId(),
 			FirstName = firstName,
 			LastName = lastName,
 			Salary = salary
 		};
+
+		_employees.Add(employee.Id, employee);
+
+		return Task.FromResult(employee.Id);
 	}
+
+	public Task UpdateEmployee(Employee employee)
+		=> Task.FromResult(_employees[employee.Id] = employee);
+
+	#region Random Employees Creation
 
 	public Employee CreateRandomEmployee(int? id = null)
 	{
 		return new Faker<Employee>("fr")
-			.RuleFor(e => e.Id, id ?? Enumerable.Range(1, 9999).Except(_employees.Select(e => e.Id)).Min())
+			.RuleFor(e => e.Id, id ?? GetMinId())
 			.RuleFor(e => e.FirstName, f => f.Name.FirstName())
 			.RuleFor(e => e.LastName, f => f.Name.LastName())
 			.RuleFor(e => e.Salary, Random.Shared.Next(1200, 10000)).Generate();
@@ -55,11 +55,17 @@ public class EmployeeRepository : IEmployeeRepository
 
 	public IEnumerable<Employee> CreateRandomEmployees(int count)
 	{
-		var ids = Enumerable.Range(1, 9999).Except(_employees.Select(e => e.Id)).Take(count);
+		var ids = Enumerable.Range(1, 9999).Except(_employees.Keys).Take(count);
 
 		foreach (int id in ids)
 		{
 			yield return CreateRandomEmployee(id);
 		}
 	}
+
+	private int GetMinId()
+	{
+		return Enumerable.Range(1, 9999).Except(_employees.Keys).Min();
+	}
+	#endregion
 }

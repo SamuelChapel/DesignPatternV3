@@ -1,6 +1,6 @@
 ﻿using static System.Console;
 
-namespace DesignPatternV3.View;
+namespace DesignPatternV3.View.Helpers;
 
 public static class ConsoleHelper
 {
@@ -18,27 +18,22 @@ public static class ConsoleHelper
 		return input;
 	}
 
-	public static int GetIntFromConsole(string label = "Entrez la valeur", int? min = null)
+	public static int GetIntFromConsole(string label = "Entrez la valeur")
 	{
-		var input = GetStringFromConsole(label);
+		Write(label + " : ");
 		int inputNumber;
-		do
-		{
-			if (!int.TryParse(input, out inputNumber))
-				WriteLine("Ce n'est pas un nombre, veuilllez réessayer");
-			else  if (min != null && inputNumber < min)
-				WriteLine($"Le nombre doit être supérieur à {min - 1}");
 
-			input = ReadLine();
-		} while (!int.TryParse(input, out inputNumber) || (min != null && inputNumber < min));
+		while (!int.TryParse(ReadLine(), out inputNumber))
+		{
+			Write("Ce n'est pas un nombre, veuillez réessayer : ");
+		}
 
 		return inputNumber;
 	}
 
-	public static int DisplayMenu(string title, string[] options, bool clearScreen = true)
+	public static int DisplayMenu(string title, params string[] options)
 	{
-		if (clearScreen)
-			Clear();
+		Clear();
 
 		WriteLine("----- " + title + " -----\n");
 		for (int i = 0; i < options.Length; i++)

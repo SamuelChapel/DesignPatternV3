@@ -4,9 +4,11 @@ namespace DesignPatternV3.Repository.Contracts;
 
 public interface IEmployeeRepository
 {
-	public Employee? GetEmployeeById(int id);
+	public Task<Employee?> FindEmployeeById(int id);
 
-	public IEnumerable<Employee> GetAllEmployees();
+	public Task<IEnumerable<Employee>> FindAllEmployees();
 
-	public Employee AddEmployee(string firstName, string lastName, decimal salary);
+	public Task<int> CreateEmployee(string firstName, string lastName, decimal salary);
+
+	public Task UpdateEmployee(Employee employee);
 }

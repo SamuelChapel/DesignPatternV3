@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatternV3.Business.Contracts\DesignPatternV3.Business.Contracts.csproj" />
+    <ProjectReference Include="..\DesignPatternV3.Business\DesignPatternV3.Business.csproj" />
     <ProjectReference Include="..\DesignPatternV3.Entities\DesignPatternV3.Entities.csproj" />
-    <ProjectReference Include="..\DesignPatternV3.Repository.Contracts\DesignPatternV3.Repository.Contracts.csproj" />
-    <ProjectReference Include="..\DesignPatternV3.Repository\DesignPatternV3.Repository.csproj" />
   </ItemGroup>
 
 </Project>

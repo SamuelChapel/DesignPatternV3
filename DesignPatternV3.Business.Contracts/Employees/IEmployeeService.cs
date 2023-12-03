@@ -1,7 +1,6 @@
-﻿using DesignPatternV3.Entities;
-using DesignPatternV3.Entities.Employees;
+﻿using DesignPatternV3.Entities.Employees;
 
-namespace DesignPatternV3.Business.Contracts;
+namespace DesignPatternV3.Business.Contracts.Employees;
 
 public interface IEmployeeService
 {
